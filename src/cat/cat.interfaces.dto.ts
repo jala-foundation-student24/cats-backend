@@ -15,6 +15,7 @@ export interface UpdateCatAdopt {
 }
 
 export interface ListCats {
-  prop?: 'name' | 'createdAt';
+  orderByProp?: 'name' | 'createdAt';
   order?: 'asc' | 'desc';
+  tag?: string;
 }

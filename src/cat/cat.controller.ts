@@ -15,7 +15,7 @@ export class CatController {
   constructor(private readonly catService: CatService) {}
 
   @Get()
-  async listCats(@Query() query: ListCats) {
+  async listCats(@Query() query?: ListCats) {
     return await this.catService.listCats(query);
   }
 

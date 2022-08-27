@@ -21,9 +21,20 @@ export class CatRepository {
           },
         },
       },
-      ...(filters?.prop && {
+      ...(filters?.orderByProp && {
         orderBy: {
-          [filters.prop]: filters?.order,
+          [filters.orderByProp]: filters?.order,
+        },
+      }),
+      ...(filters?.tag && {
+        where: {
+          TagsOnCats: {
+            some: {
+              tag: {
+                description: filters.tag,
+              },
+            },
+          },
         },
       }),
     });
