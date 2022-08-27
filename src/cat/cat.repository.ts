@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Tag } from '@prisma/client';
+import { filter } from 'rxjs';
 import { PrismaService } from 'src/prisma.service';
 import {
   CreateCat,
@@ -11,6 +12,18 @@ import {
 @Injectable()
 export class CatRepository {
   constructor(private prisma: PrismaService) {}
+
+  private filterByTag(tag: string) {
+    return {
+      TagsOnCats: {
+        some: {
+          tag: {
+            description: tag,
+          },
+        },
+      },
+    };
+  }
 
   async list(filters?: ListCats) {
     return await this.prisma.cat.findMany({
@@ -27,16 +40,15 @@ export class CatRepository {
           [filters.orderByProp]: filters?.order,
         },
       }),
-      //challenge 4 filter
-      ...(filters?.tag && {
+      //challenge 4 and 6 filter
+      ...((filters?.tag || filters?.adopted) && {
         where: {
-          TagsOnCats: {
-            some: {
-              tag: {
-                description: filters.tag,
-              },
-            },
-          },
+          AND:
+            filters?.tag && filters?.adopted
+              ? [this.filterByTag(filters.tag), { is_adopted: filters.adopted }]
+              : filters?.tag
+              ? [this.filterByTag(filters.tag)]
+              : [{ is_adopted: filters.adopted }],
         },
       }),
       //challenge 5 filter

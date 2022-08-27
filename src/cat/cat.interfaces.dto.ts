@@ -20,4 +20,5 @@ export interface ListCats {
   tag?: string;
   skip?: number;
   take?: number;
+  adopted?: boolean;
 }

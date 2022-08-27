@@ -16,6 +16,9 @@ export class CatController {
 
   @Get()
   async listCats(@Query() query?: ListCats) {
+    if (query.adopted) {
+      query.adopted = (query.adopted as unknown as string) === 'true';
+    }
     return await this.catService.listCats(query);
   }
 
