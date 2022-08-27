@@ -18,4 +18,6 @@ export interface ListCats {
   orderByProp?: 'name' | 'createdAt';
   order?: 'asc' | 'desc';
   tag?: string;
+  skip?: number;
+  take?: number;
 }

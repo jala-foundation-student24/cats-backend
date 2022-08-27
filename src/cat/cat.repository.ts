@@ -21,11 +21,13 @@ export class CatRepository {
           },
         },
       },
+      //challenge 3 filter
       ...(filters?.orderByProp && {
         orderBy: {
           [filters.orderByProp]: filters?.order,
         },
       }),
+      //challenge 4 filter
       ...(filters?.tag && {
         where: {
           TagsOnCats: {
@@ -37,6 +39,9 @@ export class CatRepository {
           },
         },
       }),
+      //challenge 5 filter
+      ...(filters?.skip && { skip: Number(filters.skip) }),
+      ...(filters?.take && { take: Number(filters.take) }),
     });
   }
 
