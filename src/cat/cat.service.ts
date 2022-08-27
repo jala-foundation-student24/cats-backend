@@ -3,6 +3,7 @@ import { Tag } from '@prisma/client';
 import { TagService } from 'src/tag/tag.service';
 import {
   CreateCat,
+  ListCats,
   UpdateCatAdopt,
   UpdateCatFavorite,
 } from './cat.interfaces.dto';
@@ -15,8 +16,8 @@ export class CatService {
     private tagService: TagService,
   ) {}
 
-  async listCats() {
-    return await this.catRepository.list();
+  async listCats(filters?: ListCats) {
+    return await this.catRepository.list(filters);
   }
 
   async getCatById(id: number) {

@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { CreateCat } from './cat.interfaces.dto';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
+import { CreateCat, ListCats } from './cat.interfaces.dto';
 import { CatService } from './cat.service';
 
 @Controller('/cat')
@@ -7,8 +15,8 @@ export class CatController {
   constructor(private readonly catService: CatService) {}
 
   @Get()
-  async listCats() {
-    return await this.catService.listCats();
+  async listCats(@Query() query: ListCats) {
+    return await this.catService.listCats(query);
   }
 
   @Get(':id')

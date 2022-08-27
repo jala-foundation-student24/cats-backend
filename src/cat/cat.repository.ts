@@ -3,6 +3,7 @@ import { Tag } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import {
   CreateCat,
+  ListCats,
   UpdateCatAdopt,
   UpdateCatFavorite,
 } from './cat.interfaces.dto';
@@ -11,7 +12,7 @@ import {
 export class CatRepository {
   constructor(private prisma: PrismaService) {}
 
-  async list() {
+  async list(filters?: ListCats) {
     return await this.prisma.cat.findMany({
       include: {
         TagsOnCats: {
@@ -20,6 +21,11 @@ export class CatRepository {
           },
         },
       },
+      ...(filters?.prop && {
+        orderBy: {
+          [filters.prop]: filters?.order,
+        },
+      }),
     });
   }
 
