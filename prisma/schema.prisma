@@ -13,9 +13,9 @@ datasource db {
 model Cat {
   id         Int          @id @default(autoincrement())
   name       String
-  image_url  String
-  favorited  Boolean
-  is_adopted Boolean
+  image_url  String       @db.VarChar(1000)
+  favorited  Boolean      @default(false)
+  is_adopted Boolean      @default(false)
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   deleted    Boolean      @default(false)

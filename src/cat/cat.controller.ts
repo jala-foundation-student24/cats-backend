@@ -1,50 +1,49 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import { CreateCat } from './cat.interfaces.dto';
 import { CatService } from './cat.service';
 
 @Controller('/cat')
 export class CatController {
-  constructor(private readonly appService: CatService) {}
+  constructor(private readonly catService: CatService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
-
-  @Get('/list')
-  listCats() {
-    return this.appService.listCats();
+  async listCats() {
+    return await this.catService.listCats();
   }
 
   @Get(':id')
-  getCatById(@Param() params: { id: string }) {
+  async getCatById(@Param() params: { id: string }) {
     const { id } = params;
-    return this.appService.getCatById(Number(id));
+    return await this.catService.getCatById(Number(id));
   }
 
   @Post()
-  createCat(@Body() data: any) {
-    return this.appService.createCat(data);
+  async createCat(@Body() data: CreateCat) {
+    return await this.catService.createCat(data);
   }
 
   @Patch('/favorite/:id')
-  updateCatFavorite(
+  async updateCatFavorite(
     @Param() params: { id: string },
-    @Body() data: { favorite: boolean },
+    @Body() data: { favorited: boolean },
   ) {
     const { id } = params;
-    const { favorite } = data;
+    const { favorited } = data;
 
-    return this.appService.updateCatFavorite({ id: Number(id), favorite });
+    return await this.catService.updateCatFavorite({
+      id: Number(id),
+      favorited: favorited,
+    });
   }
 
   @Patch('/adopt/:id')
-  updateCatAdopted(
+  async updateCatAdopted(
     @Param() params: { id: string },
     @Body() data: { adopted: boolean },
   ) {
     const { id } = params;
     const { adopted } = data;
 
-    return this.appService.updateCatAdopted({ id: Number(id), adopted });
+    return await this.catService.updateCatAdopted({ id: Number(id), adopted });
   }
 }
